@@ -22,7 +22,7 @@ package es.ucm.gpd.irparser.ast.assertion;
  * @author Santiago Saavedra
  */
 public class NotAssertion implements AssertionExpr {
-    private AssertionExpr expr;
+    private final AssertionExpr expr;
 
     public NotAssertion(AssertionExpr expr) {
         this.expr = expr;

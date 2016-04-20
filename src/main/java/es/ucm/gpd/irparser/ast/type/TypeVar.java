@@ -19,8 +19,8 @@ package es.ucm.gpd.irparser.ast.type;
 /**
  * @author Santiago Saavedra
  */
-public class TypeVar {
-    private String varname;
+public class TypeVar extends Type {
+    private final String varname;
 
     public TypeVar(String varname) {
 
@@ -29,5 +29,10 @@ public class TypeVar {
 
     public String getVarname() {
         return varname;
+    }
+
+    @Override
+    public String toString() {
+        return "'" + varname;
     }
 }

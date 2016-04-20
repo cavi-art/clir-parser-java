@@ -23,6 +23,9 @@ import es.ucm.gpd.irparser.ast.metadata.FunctionMetadata;
 
 import java.util.List;
 
+import static es.ucm.sexp.SexpUtils.listToCons;
+
+
 /**
  * This is a toplevel function definition.
  *
@@ -41,4 +44,12 @@ public class FunctionDefinition
     }
 
 
+    public String toString() {
+        return String.format("(define %s %s %s (declare %s) \n  %s)",
+                functionName,
+                listToCons(formalParameters),
+                returnType,
+                functionMetadata,
+                expr);
+    }
 }

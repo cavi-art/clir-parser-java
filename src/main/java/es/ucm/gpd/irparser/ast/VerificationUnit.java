@@ -19,7 +19,10 @@ package es.ucm.gpd.irparser.ast;
 
 import es.ucm.gpd.irparser.ast.tld.ToplevelDefinition;
 
+import java.util.Collections;
 import java.util.List;
+
+import static es.ucm.sexp.SexpUtils.listToCons;
 
 /**
  * A verification unit is contained in this class. This is the root block in a
@@ -28,18 +31,24 @@ import java.util.List;
  * @author Santiago Saavedra
  */
 public class VerificationUnit {
-    private List<ToplevelDefinition> toplevelForms;
-    private List<String> usedPackages;
-    private List<String> documentation;
-    private List<String> verifyOnly;
-    private List<String> assumeVerified;
+    private final String packageName;
+    private final List<ToplevelDefinition> toplevelForms;
+    private final List<String> usedPackages;
+    private final String documentation;
+    private final List<String> verifyOnly;
+    private final List<String> assumeVerified;
 
-    public VerificationUnit(List<ToplevelDefinition> toplevelForms, List<String> usedPackages, List<String> documentation, List<String> verifyOnly, List<String> assumeVerified) {
-        this.toplevelForms = toplevelForms;
-        this.usedPackages = usedPackages;
+    public VerificationUnit(String packageName, List<ToplevelDefinition> toplevelForms, List<String> usedPackages, String documentation, List<String> verifyOnly, List<String> assumeVerified) {
+        this.packageName = packageName;
+        this.toplevelForms = Collections.unmodifiableList(toplevelForms);
+        this.usedPackages = Collections.unmodifiableList(usedPackages);
         this.documentation = documentation;
-        this.verifyOnly = verifyOnly;
-        this.assumeVerified = assumeVerified;
+        this.verifyOnly = Collections.unmodifiableList(verifyOnly);
+        this.assumeVerified = Collections.unmodifiableList(assumeVerified);
+    }
+
+    public String getPackageName() {
+        return packageName;
     }
 
     public List<ToplevelDefinition> getToplevelForms() {
@@ -50,7 +59,7 @@ public class VerificationUnit {
         return usedPackages;
     }
 
-    public List<String> getDocumentation() {
+    public String getDocumentation() {
         return documentation;
     }
 
@@ -61,4 +70,28 @@ public class VerificationUnit {
     public List<String> getAssumeVerified() {
         return assumeVerified;
     }
+
+    public String toString() {
+        StringBuilder joinedToplevelForms = new StringBuilder();
+
+        for (ToplevelDefinition d : toplevelForms) {
+            joinedToplevelForms.append(d.toString());
+            joinedToplevelForms.append("\n");
+        }
+
+        return String.format("(verification-unit %s \n" +
+                        "  :uses %s \n" +
+                        "  :documentation \"%s\" \n" +
+                        "  :verify-only %s\n" +
+                        "  :assume-verified %s)\n" +
+                        "%s",
+                packageName,
+                listToCons(usedPackages),
+                documentation,
+                listToCons(verifyOnly),
+                listToCons(assumeVerified),
+                joinedToplevelForms.toString())
+                ;
+    }
+
 }

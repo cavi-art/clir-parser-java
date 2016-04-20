@@ -22,5 +22,18 @@ import es.ucm.gpd.irparser.ast.expr.Constant;
  * @author Santiago Saavedra
  */
 public class CaseConstant<T> implements CasePattern {
-    private Constant<T> constant;
+    private final Constant<T> constant;
+
+    public CaseConstant(Constant<T> constant) {
+        this.constant = constant;
+    }
+
+    public Constant<T> getConstant() {
+        return constant;
+    }
+
+    @Override
+    public String toString() {
+        return constant.toString();
+    }
 }

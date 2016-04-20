@@ -37,8 +37,8 @@ import java.util.List;
  * @see CaseExpr
  */
 public class CaseAssertion implements AssertionExpr {
-    private Expression discriminant;
-    private List<CaseAlt<AssertionExpr>> alts;
+    private final Expression discriminant;
+    private final List<CaseAlt<AssertionExpr>> alts;
 
     public CaseAssertion(Expression discriminant, List<CaseAlt<AssertionExpr>> alts) {
         this.discriminant = discriminant;

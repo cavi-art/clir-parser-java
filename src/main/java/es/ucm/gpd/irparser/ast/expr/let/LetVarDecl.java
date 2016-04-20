@@ -18,13 +18,14 @@ package es.ucm.gpd.irparser.ast.expr.let;
 
 import es.ucm.gpd.irparser.ast.VariableDeclaration;
 
+import java.util.Collections;
 import java.util.List;
 
 /**
  * @author Santiago Saavedra
  */
 public class LetVarDecl {
-    private List<VariableDeclaration> elements;
+    private final List<VariableDeclaration> elements;
 
     public LetVarDecl(List<VariableDeclaration> elements) {
 
@@ -32,6 +33,6 @@ public class LetVarDecl {
     }
 
     public List<VariableDeclaration> getElements() {
-        return elements;
+        return Collections.unmodifiableList(elements);
     }
 }

@@ -20,7 +20,7 @@ package es.ucm.gpd.irparser.ast.type;
  * @author Santiago Saavedra
  */
 public class SimpleType extends Type {
-    private String name;
+    private final String name;
 
     public SimpleType(String name) {
         this.name = name;
@@ -28,6 +28,11 @@ public class SimpleType extends Type {
     }
 
     public String getName() {
+        return name;
+    }
+
+    @Override
+    public String toString() {
         return name;
     }
 }

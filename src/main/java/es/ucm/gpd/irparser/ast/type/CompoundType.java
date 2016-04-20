@@ -16,14 +16,18 @@
 
 package es.ucm.gpd.irparser.ast.type;
 
+import java.util.Collections;
 import java.util.List;
+
+import static es.ucm.sexp.SexpUtils.listToCons;
+
 
 /**
  * @author Santiago Saavedra
  */
 public class CompoundType extends Type {
-    private String name;
-    private List<Type> expr;
+    private final String name;
+    private final List<Type> expr;
 
     public CompoundType(String name, List<Type> expr) {
 
@@ -36,6 +40,10 @@ public class CompoundType extends Type {
     }
 
     public List<Type> getExpr() {
-        return expr;
+        return Collections.unmodifiableList(expr);
+    }
+
+    public String toString() {
+        return String.format("(%s %s)", name, listToCons(expr));
     }
 }

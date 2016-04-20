@@ -22,8 +22,8 @@ import es.ucm.gpd.irparser.ast.type.Type;
  * @author Santiago Saavedra
  */
 public class Constant<T> implements Atom {
-    private Type type;
-    private T value;
+    private final Type type;
+    private final T value;
 
     public Constant(Type type, T value) {
         this.type = type;
@@ -38,5 +38,10 @@ public class Constant<T> implements Atom {
 
     public T getValue() {
         return value;
+    }
+
+    @Override
+    public String toString() {
+        return String.format("(the %s %s)", type, value);
     }
 }

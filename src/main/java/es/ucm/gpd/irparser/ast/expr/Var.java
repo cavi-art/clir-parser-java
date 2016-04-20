@@ -24,8 +24,8 @@ import es.ucm.gpd.irparser.ast.type.Type;
  * @author Santiago Saavedra
  */
 public class Var implements Atom {
-    private String name;
-    private Type type;
+    private final String name;
+    private final Type type;
 
     public Var(String name, Type type) {
         this.name = name;
@@ -38,5 +38,10 @@ public class Var implements Atom {
 
     public Type getType() {
         return type;
+    }
+
+    @Override
+    public String toString() {
+        return String.format("(var %s)", name);
     }
 }

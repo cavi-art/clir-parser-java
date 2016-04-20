@@ -19,14 +19,15 @@ package es.ucm.gpd.irparser.ast.expr;
 import es.ucm.gpd.irparser.ast.type.Type;
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
+import java.util.Collections;
 import java.util.List;
 
 /**
  * @author Santiago Saavedra
  */
 public class ConstructorApplication implements AtomicExpression {
-    private String constructorName;
-    private List<Atom> arguments;
+    private final String constructorName;
+    private final List<Atom> arguments;
 
     public ConstructorApplication(String constructorName, List<Atom> arguments) {
         this.constructorName = constructorName;
@@ -38,7 +39,7 @@ public class ConstructorApplication implements AtomicExpression {
     }
 
     public List<Atom> getArguments() {
-        return arguments;
+        return Collections.unmodifiableList(arguments);
     }
 
     @Override

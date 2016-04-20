@@ -18,6 +18,7 @@ package es.ucm.gpd.irparser.ast.assertion;
 
 import es.ucm.gpd.irparser.ast.VariableDeclaration;
 
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -30,9 +31,9 @@ import java.util.List;
  * @see Quantifier#Forall
  */
 public class QuantifiedAssertion implements AssertionExpr {
-    private Quantifier quantifier;
-    private List<VariableDeclaration> declarations;
-    private AssertionExpr expr;
+    private final Quantifier quantifier;
+    private final List<VariableDeclaration> declarations;
+    private final AssertionExpr expr;
 
     public QuantifiedAssertion(Quantifier quantifier, List<VariableDeclaration> declarations, AssertionExpr expr) {
 
@@ -46,7 +47,7 @@ public class QuantifiedAssertion implements AssertionExpr {
     }
 
     public List<VariableDeclaration> getDeclarations() {
-        return declarations;
+        return Collections.unmodifiableList(declarations);
     }
 
     public AssertionExpr getExpr() {

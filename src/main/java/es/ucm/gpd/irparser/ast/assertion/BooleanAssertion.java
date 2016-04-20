@@ -16,6 +16,7 @@
 
 package es.ucm.gpd.irparser.ast.assertion;
 
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -27,8 +28,8 @@ import java.util.List;
  * @see AssertionExpr
  */
 public class BooleanAssertion implements AssertionExpr {
-    private BooleanOperator op;
-    private List<AssertionExpr> exprList;
+    private final BooleanOperator op;
+    private final List<AssertionExpr> exprList;
 
     public BooleanAssertion(BooleanOperator op, List<AssertionExpr> exprList) {
         this.op = op;
@@ -36,7 +37,11 @@ public class BooleanAssertion implements AssertionExpr {
         this.exprList = exprList;
     }
 
+    public BooleanOperator getOp() {
+        return op;
+    }
+
     public List<AssertionExpr> getExprList() {
-        return exprList;
+        return Collections.unmodifiableList(exprList);
     }
 }

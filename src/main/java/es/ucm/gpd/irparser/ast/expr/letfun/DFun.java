@@ -23,6 +23,9 @@ import es.ucm.gpd.irparser.ast.metadata.FunctionMetadata;
 
 import java.util.List;
 
+import static es.ucm.sexp.SexpUtils.listToCons;
+
+
 /**
  * @author Santiago Saavedra
  */
@@ -32,5 +35,15 @@ public class DFun extends BaseFunctionDefinition {
                 VariableDeclaration returnType, Expression expr) {
         super(functionName, functionMetadata, formalParameters,
                 returnType, expr);
+    }
+
+    @Override
+    public String toString() {
+        return String.format("(%s %s %s (declare %s) %s)",
+                functionName,
+                listToCons(formalParameters),
+                returnType,
+                functionMetadata,
+                expr);
     }
 }

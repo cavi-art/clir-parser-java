@@ -18,6 +18,7 @@ package es.ucm.gpd.irparser.ast.tld;
 
 import es.ucm.gpd.irparser.ast.type.Type;
 
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -25,8 +26,8 @@ import java.util.List;
  */
 public class DataType implements ToplevelDefinition {
 
-    private Type newName;
-    private List<ConstructedType> alternatives;
+    private final Type newName;
+    private final List<ConstructedType> alternatives;
 
     public DataType(Type newName, List<ConstructedType> alternatives) {
         this.newName = newName;
@@ -38,7 +39,8 @@ public class DataType implements ToplevelDefinition {
     }
 
     public List<ConstructedType> getAlternatives() {
-        return alternatives;
+        return
+                Collections.unmodifiableList(alternatives);
     }
 
     /**

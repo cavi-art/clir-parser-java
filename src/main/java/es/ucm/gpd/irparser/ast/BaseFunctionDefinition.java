@@ -19,17 +19,18 @@ package es.ucm.gpd.irparser.ast;
 import es.ucm.gpd.irparser.ast.expr.Expression;
 import es.ucm.gpd.irparser.ast.metadata.FunctionMetadata;
 
+import java.util.Collections;
 import java.util.List;
 
 /**
  * @author Santiago Saavedra
  */
 public class BaseFunctionDefinition {
-    protected String functionName;
-    protected List<VariableDeclaration> formalParameters;
-    protected VariableDeclaration returnType;
-    protected FunctionMetadata functionMetadata;
-    protected Expression expr;
+    protected final String functionName;
+    protected final List<VariableDeclaration> formalParameters;
+    protected final VariableDeclaration returnType;
+    protected final FunctionMetadata functionMetadata;
+    protected final Expression expr;
 
     public BaseFunctionDefinition(String functionName, FunctionMetadata functionMetadata, List<VariableDeclaration> formalParameters, VariableDeclaration returnType, Expression expr) {
         this.functionName = functionName;
@@ -44,7 +45,7 @@ public class BaseFunctionDefinition {
     }
 
     public List<VariableDeclaration> getFormalParameters() {
-        return formalParameters;
+        return Collections.unmodifiableList(formalParameters);
     }
 
     public VariableDeclaration getReturnType() {

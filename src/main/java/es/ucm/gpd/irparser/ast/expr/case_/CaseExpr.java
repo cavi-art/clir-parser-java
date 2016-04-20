@@ -20,7 +20,10 @@ import es.ucm.gpd.irparser.ast.expr.AtomicExpression;
 import es.ucm.gpd.irparser.ast.expr.Expression;
 import es.ucm.gpd.irparser.ast.type.Type;
 
+import java.util.Collections;
 import java.util.List;
+
+import static es.ucm.sexp.SexpUtils.listToCons;
 
 
 /**
@@ -35,8 +38,8 @@ public class CaseExpr implements Expression {
     /* TODO Should the default case be here as a distinct variable to
     enforce the fact that there must always be a default case? */
 
-    private AtomicExpression discriminant;
-    private List<CaseAlt<Expression>> alts;
+    private final AtomicExpression discriminant;
+    private final List<CaseAlt<Expression>> alts;
 
     public CaseExpr(AtomicExpression discriminant, List<CaseAlt<Expression>> alts) {
         this.discriminant = discriminant;
@@ -44,17 +47,23 @@ public class CaseExpr implements Expression {
     }
 
     public AtomicExpression getDiscriminant() {
-
         return discriminant;
     }
 
     public List<CaseAlt<Expression>> getAlts() {
-        return alts;
+        return Collections.unmodifiableList(alts);
     }
 
     @Override
     public Type getType() {
         return alts.get(0).getExpr().getType();
+    }
+
+    @Override
+    public String toString() {
+        return String.format("(case %s \n    %s)",
+                discriminant,
+                listToCons(alts));
     }
 
 }

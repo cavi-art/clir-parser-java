@@ -16,20 +16,25 @@
 
 package es.ucm.gpd.irparser.ast.expr;
 
-import es.ucm.gpd.irparser.ast.type.Type;
 import es.ucm.gpd.irparser.ast.type.CompoundType;
+import es.ucm.gpd.irparser.ast.type.Type;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 /**
  * @author Santiago Saavedra
  */
 public class Tuple implements AtomicExpression {
-    private List<Atom> elements;
+    private final List<Atom> elements;
 
     public Tuple(List<Atom> elements) {
         this.elements = elements;
+    }
+
+    public List<Atom> getElements() {
+        return Collections.unmodifiableList(elements);
     }
 
     public Type getType() {

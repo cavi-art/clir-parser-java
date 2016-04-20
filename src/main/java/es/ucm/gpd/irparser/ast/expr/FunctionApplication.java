@@ -19,14 +19,15 @@ package es.ucm.gpd.irparser.ast.expr;
 import es.ucm.gpd.irparser.ast.type.Type;
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
+import java.util.Collections;
 import java.util.List;
 
 /**
  * @author Santiago Saavedra
  */
 public class FunctionApplication implements AtomicExpression {
-    private String functionName;
-    private List<Atom> arguments;
+    private final String functionName;
+    private final List<Atom> arguments;
 
     public FunctionApplication(String functionName, List<Atom> arguments) {
         this.functionName = functionName;
@@ -38,11 +39,23 @@ public class FunctionApplication implements AtomicExpression {
     }
 
     public List<Atom> getArguments() {
-        return arguments;
+        return Collections.unmodifiableList(arguments);
     }
 
     @Override
     public Type getType() {
         throw new NotImplementedException();
+    }
+
+    @Override
+    public String toString() {
+        StringBuilder splicedArguments = new StringBuilder();
+        for (Atom a : arguments) {
+            splicedArguments.append(" ");
+            splicedArguments.append(a);
+        }
+
+        return String.format("(@ %s %s)", functionName, splicedArguments
+                .toString());
     }
 }

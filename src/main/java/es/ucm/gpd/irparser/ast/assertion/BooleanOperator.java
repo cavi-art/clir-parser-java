@@ -20,5 +20,5 @@ package es.ucm.gpd.irparser.ast.assertion;
  * @author Santiago Saavedra
  */
 public enum BooleanOperator {
-    And, Or, Implies, DoubleImplies;
+    And, Or, Implies, DoubleImplies,
 }

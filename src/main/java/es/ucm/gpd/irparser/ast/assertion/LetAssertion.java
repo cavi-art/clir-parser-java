@@ -33,9 +33,9 @@ import es.ucm.gpd.irparser.ast.expr.let.LetVarDecl;
  * @see LetExpr
  */
 public class LetAssertion implements AssertionExpr {
-    private LetVarDecl lhs;
-    private Expression rhs;
-    private AssertionExpr expr;
+    private final LetVarDecl lhs;
+    private final Expression rhs;
+    private final AssertionExpr expr;
 
     public LetAssertion(LetVarDecl lhs, Expression rhs, AssertionExpr expr) {
         this.lhs = lhs;

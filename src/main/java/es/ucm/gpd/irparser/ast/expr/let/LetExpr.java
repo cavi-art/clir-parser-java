@@ -16,17 +16,17 @@
 
 package es.ucm.gpd.irparser.ast.expr.let;
 
-import es.ucm.gpd.irparser.ast.type.Type;
 import es.ucm.gpd.irparser.ast.expr.AtomicExpression;
 import es.ucm.gpd.irparser.ast.expr.Expression;
+import es.ucm.gpd.irparser.ast.type.Type;
 
 /**
  * @author Santiago Saavedra
  */
 public class LetExpr implements Expression {
-    private LetVarDecl lhs;
-    private AtomicExpression rhs;
-    private Expression expr;
+    private final LetVarDecl lhs;
+    private final AtomicExpression rhs;
+    private final Expression expr;
 
     public LetExpr(LetVarDecl lhs, AtomicExpression rhs, Expression expr) {
 
@@ -52,4 +52,9 @@ public class LetExpr implements Expression {
         return expr.getType();
     }
 
+    @Override
+    public String toString() {
+        return String.format("(let (%s) %s \n    %s)",
+                lhs, rhs, expr);
+    }
 }

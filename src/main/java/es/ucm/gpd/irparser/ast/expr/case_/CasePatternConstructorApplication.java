@@ -18,6 +18,7 @@ package es.ucm.gpd.irparser.ast.expr.case_;
 
 import es.ucm.gpd.irparser.ast.VariableDeclaration;
 
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -25,8 +26,8 @@ import java.util.List;
  */
 public class CasePatternConstructorApplication implements
         CasePattern {
-    private String constructorName;
-    private List<VariableDeclaration> arguments;
+    private final String constructorName;
+    private final List<VariableDeclaration> arguments;
 
     public CasePatternConstructorApplication(String constructorName, List<VariableDeclaration> arguments) {
 
@@ -39,6 +40,6 @@ public class CasePatternConstructorApplication implements
     }
 
     public List<VariableDeclaration> getArguments() {
-        return arguments;
+        return Collections.unmodifiableList(arguments);
     }
 }

@@ -22,10 +22,10 @@ import es.ucm.gpd.irparser.ast.type.Type;
  * @author Santiago Saavedra
  */
 public class VariableDeclaration {
-    private Type type;
-    private String name;
+    private final Type type;
+    private final String name;
 
-    public VariableDeclaration(Type type, String name) {
+    public VariableDeclaration(String name, Type type) {
         this.type = type;
         this.name = name;
 
@@ -37,5 +37,9 @@ public class VariableDeclaration {
 
     public String getName() {
         return name;
+    }
+
+    public String toString() {
+        return String.format("(%s %s)", name, type);
     }
 }

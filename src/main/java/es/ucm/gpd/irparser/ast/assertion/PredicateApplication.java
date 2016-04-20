@@ -18,6 +18,7 @@ package es.ucm.gpd.irparser.ast.assertion;
 
 import es.ucm.gpd.irparser.ast.expr.AtomicExpression;
 
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -27,8 +28,8 @@ import java.util.List;
  * @author Santiago Saavedra
  */
 public class PredicateApplication implements AssertionExpr {
-    private String predicateName;
-    private List<AtomicExpression> arguments;
+    private final String predicateName;
+    private final List<AtomicExpression> arguments;
 
     public PredicateApplication(String predicateName, List<AtomicExpression> arguments) {
         this.predicateName = predicateName;
@@ -41,6 +42,6 @@ public class PredicateApplication implements AssertionExpr {
     }
 
     public List<AtomicExpression> getArguments() {
-        return arguments;
+        return Collections.unmodifiableList(arguments);
     }
 }

@@ -20,4 +20,9 @@ package es.ucm.gpd.irparser.ast.type;
  * @author Santiago Saavedra
  */
 public class UnitType extends Type {
+
+    @Override
+    public String toString() {
+        return "()";
+    }
 }

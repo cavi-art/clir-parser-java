@@ -31,5 +31,5 @@ public enum Quantifier {
     /**
      * The existential quantifier.
      */
-    Exists;
+    Exists,
 }

@@ -20,5 +20,5 @@ package es.ucm.gpd.irparser.ast.assertion;
  * @author Santiago Saavedra
  */
 public enum AssertionType {
-    PreCD, PostCD, Invariant, Variant;
+    PreCD, PostCD, Invariant, Variant,
 }

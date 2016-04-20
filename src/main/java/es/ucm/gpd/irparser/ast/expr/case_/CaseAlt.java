@@ -20,8 +20,8 @@ package es.ucm.gpd.irparser.ast.expr.case_;
  * Each case alternative is made of one of this nodes.
  */
 public class CaseAlt<T> {
-    private CasePattern pattern;
-    private T expr;
+    private final CasePattern pattern;
+    private final T expr;
 
     public CaseAlt(CasePattern pattern, T expr) {
         this.pattern = pattern;
