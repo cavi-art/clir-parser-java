@@ -46,7 +46,6 @@ public class Sexp2Ast {
         assert car(expr).isAtom();
         assert car(expr).getAtom().toString().equalsIgnoreCase
                 ("verification-unit");
-
         List<String> usedPackages = new ArrayList<>();
         String documentation = "";
         List<String> verifyOnly = new ArrayList<>();
@@ -118,7 +117,8 @@ public class Sexp2Ast {
 
         List<VariableDeclaration> formalParameters = parseVarDeclList(cadr
                 (cons));
-        VariableDeclaration returnType = parseVarDecl(cadr(cdr(cons)));
+        List<VariableDeclaration> returnType = parseVarDeclList(cadr(cdr
+                (cons)));
 
         // Test for optional metadata
         if (carEqualsIgnoreCase(cadr(cddr(cons)), "declare")) {
@@ -134,8 +134,8 @@ public class Sexp2Ast {
     private static es.ucm.gpd.irparser.ast.expr.Atom parseAtom(
             SexpParser.Expr expr
     ) {
-        if (car(expr).toString().equalsIgnoreCase("var")) {
-            return new Var(cadr(expr).getAtom().toString(), null);
+        if (expr.isAtom()) {
+            return new Var(expr.getAtom().toString(), null);
         }
 
         if (car(expr).toString().equalsIgnoreCase("the")) {

@@ -16,17 +16,15 @@
 
 package es.ucm.gpd.irparser.ast.assertion;
 
-import es.ucm.gpd.irparser.ast.expr.Expression;
+import es.ucm.gpd.irparser.ast.expr.AtomicExpression;
 import es.ucm.gpd.irparser.ast.expr.let.LetExpr;
 import es.ucm.gpd.irparser.ast.expr.let.LetVarDecl;
 
 /**
  * This assertion introduces a new lexical variable in the scope (or
  * destructured variable, it is the same kind of expression allowed as in
- * {@link LetExpr}). This let allows full
- * expressions in its {@link LetAssertion#rhs} because there are no other ways
- * (exc. for {@link CaseAssertion}, which is in the same case) for introducing
- * full expressions than here.
+ * {@link LetExpr}). This let allows {@link AtomicExpression}s in its {@link
+ * LetAssertion#rhs}.
  *
  * @author Santiago Saavedra
  * @see CaseAssertion
@@ -34,10 +32,10 @@ import es.ucm.gpd.irparser.ast.expr.let.LetVarDecl;
  */
 public class LetAssertion implements AssertionExpr {
     private final LetVarDecl lhs;
-    private final Expression rhs;
+    private final AtomicExpression rhs;
     private final AssertionExpr expr;
 
-    public LetAssertion(LetVarDecl lhs, Expression rhs, AssertionExpr expr) {
+    public LetAssertion(LetVarDecl lhs, AtomicExpression rhs, AssertionExpr expr) {
         this.lhs = lhs;
         this.rhs = rhs;
         this.expr = expr;
@@ -47,7 +45,7 @@ public class LetAssertion implements AssertionExpr {
         return lhs;
     }
 
-    public Expression getRhs() {
+    public AtomicExpression getRhs() {
         return rhs;
     }
 

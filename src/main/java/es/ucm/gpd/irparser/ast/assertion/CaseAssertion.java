@@ -16,6 +16,7 @@
 
 package es.ucm.gpd.irparser.ast.assertion;
 
+import es.ucm.gpd.irparser.ast.expr.AtomicExpression;
 import es.ucm.gpd.irparser.ast.expr.Expression;
 import es.ucm.gpd.irparser.ast.expr.case_.CaseAlt;
 import es.ucm.gpd.irparser.ast.expr.case_.CaseExpr;
@@ -27,20 +28,18 @@ import java.util.List;
  * This branches an assertion following a condition set by its {@link
  * #discriminant}, which is then matched to the various {@link #alts}.
  * <p>
- * The matching is performed just like in {@link CaseExpr}
- * with the difference that this discriminant allows full {@link Expression},
- * because it is the only way (exc. for {@link LetAssertion}, which is in the
- * same case) for introducing full expressions in assertions.
+ * The matching is performed just like in {@link CaseExpr}. This case allows
+ * {@link AtomicExpression}s in its {@link LetAssertion#rhs}.
  *
  * @author Santiago Saavedra
  * @see LetAssertion
  * @see CaseExpr
  */
 public class CaseAssertion implements AssertionExpr {
-    private final Expression discriminant;
+    private final AtomicExpression discriminant;
     private final List<CaseAlt<AssertionExpr>> alts;
 
-    public CaseAssertion(Expression discriminant, List<CaseAlt<AssertionExpr>> alts) {
+    public CaseAssertion(AtomicExpression discriminant, List<CaseAlt<AssertionExpr>> alts) {
         this.discriminant = discriminant;
         this.alts = alts;
     }

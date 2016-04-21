@@ -32,7 +32,7 @@ import static es.ucm.sexp.SexpUtils.listToCons;
 public class DFun extends BaseFunctionDefinition {
     public DFun(String functionName, FunctionMetadata functionMetadata,
                 List<VariableDeclaration> formalParameters,
-                VariableDeclaration returnType, Expression expr) {
+                List<VariableDeclaration> returnType, Expression expr) {
         super(functionName, functionMetadata, formalParameters,
                 returnType, expr);
     }

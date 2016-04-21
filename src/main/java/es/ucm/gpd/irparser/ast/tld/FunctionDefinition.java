@@ -36,7 +36,7 @@ public class FunctionDefinition
 
     public FunctionDefinition(String functionName,
                               List<VariableDeclaration> formalParameters,
-                              VariableDeclaration returnType,
+                              List<VariableDeclaration> returnType,
                               FunctionMetadata functionMetadata,
                               Expression expr) {
         super(functionName, functionMetadata, formalParameters, returnType,

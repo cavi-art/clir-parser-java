@@ -28,11 +28,14 @@ import java.util.List;
 public class BaseFunctionDefinition {
     protected final String functionName;
     protected final List<VariableDeclaration> formalParameters;
-    protected final VariableDeclaration returnType;
+    protected final List<VariableDeclaration> returnType;
     protected final FunctionMetadata functionMetadata;
     protected final Expression expr;
 
-    public BaseFunctionDefinition(String functionName, FunctionMetadata functionMetadata, List<VariableDeclaration> formalParameters, VariableDeclaration returnType, Expression expr) {
+    public BaseFunctionDefinition(String functionName, FunctionMetadata
+            functionMetadata, List<VariableDeclaration> formalParameters,
+                                  List<VariableDeclaration> returnType,
+                                  Expression expr) {
         this.functionName = functionName;
         this.functionMetadata = functionMetadata;
         this.formalParameters = formalParameters;
@@ -48,7 +51,7 @@ public class BaseFunctionDefinition {
         return Collections.unmodifiableList(formalParameters);
     }
 
-    public VariableDeclaration getReturnType() {
+    public List<VariableDeclaration> getReturnType() {
         return returnType;
     }
 
