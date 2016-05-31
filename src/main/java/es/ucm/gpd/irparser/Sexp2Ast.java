@@ -18,12 +18,15 @@ package es.ucm.gpd.irparser;
 
 import es.ucm.gpd.irparser.ast.VariableDeclaration;
 import es.ucm.gpd.irparser.ast.VerificationUnit;
+import es.ucm.gpd.irparser.ast.assertion.*;
 import es.ucm.gpd.irparser.ast.expr.*;
 import es.ucm.gpd.irparser.ast.expr.case_.*;
 import es.ucm.gpd.irparser.ast.expr.let.LetExpr;
 import es.ucm.gpd.irparser.ast.expr.let.LetVarDecl;
 import es.ucm.gpd.irparser.ast.expr.letfun.DFun;
 import es.ucm.gpd.irparser.ast.expr.letfun.LetFunExpr;
+import es.ucm.gpd.irparser.ast.metadata.FunctionMetadata;
+import es.ucm.gpd.irparser.ast.metadata.MetadataType;
 import es.ucm.gpd.irparser.ast.tld.FunctionDefinition;
 import es.ucm.gpd.irparser.ast.tld.ToplevelDefinition;
 import es.ucm.gpd.irparser.ast.type.*;
@@ -31,7 +34,9 @@ import es.ucm.sexp.SexpFileParser;
 import es.ucm.sexp.SexpParser;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 import static es.ucm.sexp.SexpUtils.*;
@@ -120,18 +125,21 @@ public class Sexp2Ast {
         List<VariableDeclaration> returnType = parseVarDeclList(cadr(cdr
                 (cons)));
 
+        Map<MetadataType, FunctionMetadata> metadata = Collections.EMPTY_MAP;
+
         // Test for optional metadata
         if (carEqualsIgnoreCase(cadr(cddr(cons)), "declare")) {
+            metadata = FunctionMetadata.fromAList(cdr(cadr(cddr(cons))));
             cons = cdr(cons);
         }
 
         Expression expr = parseExpr(cadr(cddr(cons)));
 
         return new FunctionDefinition(functionName, formalParameters,
-                returnType, null, expr);
+                returnType, metadata, expr);
     }
 
-    private static es.ucm.gpd.irparser.ast.expr.Atom parseAtom(
+    private static Atom parseAtom(
             SexpParser.Expr expr
     ) {
         if (expr.isAtom()) {
@@ -214,7 +222,7 @@ public class Sexp2Ast {
             return asAtom;
 
         if (car(expr).toString().equalsIgnoreCase("tuple")) {
-            final List<es.ucm.gpd.irparser.ast.expr.Atom> atoms = consToList
+            final List<Atom> atoms = consToList
                     (cdr(expr))
                     .stream()
                     .map(Sexp2Ast::parseAtom)
@@ -276,6 +284,90 @@ public class Sexp2Ast {
                 .map(Sexp2Ast::parseType)
                 .collect(Collectors.toList());
         return new CompoundType(car(e).getAtom().toString(), typeArgs);
+    }
+
+
+    public static AssertionExpr parseAssertion(SexpParser.Expr expr) {
+        if (expr.isAtom()) {
+            switch (expr.getAtom().toString().toLowerCase()) {
+                case "true":
+                    return new TrueAssertion();
+                case "false":
+                    return new FalseAssertion();
+                default:
+                    throw new RuntimeException("Cannot handle assertion " +
+                            "atom: " + expr);
+            }
+        }
+        switch (car(expr).getAtom().toString().toLowerCase()) {
+            case "forall":
+                return parseQuantified(Quantifier.Forall, cdr(expr));
+            case "exists":
+                return parseQuantified(Quantifier.Exists, cdr(expr));
+            case "@":
+                return parseApplication(cdr(expr));
+            case "->":
+                return parseBoolean(BooleanOperator.Implies,
+                        cdr(expr));
+            case "<->":
+                return parseBoolean(BooleanOperator.DoubleImplies,
+                        cdr(expr));
+            case "and":
+                return parseBoolean(BooleanOperator.And, cdr(expr));
+            case "or":
+                return parseBoolean(BooleanOperator.Or, cdr(expr));
+            case "case":
+                AtomicExpression discriminant = parseAtomicExpr(cadr(expr));
+                List<CaseAlt<AssertionExpr>> alts = consToList(cddr(expr))
+                        .stream()
+                        .map(e -> new CaseAlt<>(
+                                parseCasePattern(car(e)), parseAssertion(e)
+                        ))
+                        .collect(Collectors.toList());
+
+                return new CaseAssertion(discriminant, alts);
+            case "let":
+                final LetVarDecl lhs = new LetVarDecl(
+                        parseVarDeclList(cadr(expr)));
+                final AtomicExpression rhs = parseAtomicExpr(cadr(cdr(expr)));
+
+                return new LetAssertion(lhs, rhs, parseAssertion(cadr(cddr(expr))));
+            default:
+                throw new RuntimeException("Unknown predicate symbol: "
+                        + car(expr));
+        }
+    }
+
+    private static AssertionExpr parseQuantified(Quantifier q, SexpParser
+            .Expr expr) {
+        SexpParser.Expr varDeclList = car(expr);
+        SexpParser.Expr mainExpr = cadr(expr);
+
+        return new QuantifiedAssertion(q, parseVarDeclList(varDeclList),
+                parseAssertion(mainExpr));
+    }
+
+    private static AssertionExpr parseApplication(SexpParser.Expr expr) {
+        String predicateName = car(expr).getAtom().toString();
+        SexpParser.Expr arguments = cdr(expr);
+
+        List<AtomicExpression> args = consToList(arguments)
+                .stream()
+                .map(Sexp2Ast::parseAtomicExpr)
+                .collect(Collectors.toList());
+
+        return new PredicateApplication(predicateName, args);
+    }
+
+    private static AssertionExpr parseBoolean(BooleanOperator op,
+                                              SexpParser.Expr expr) {
+
+        List<AssertionExpr> expressionList = consToList(expr)
+                .stream()
+                .map(Sexp2Ast::parseAssertion)
+                .collect(Collectors.toList());
+
+        return new BooleanAssertion(op, expressionList);
     }
 
 

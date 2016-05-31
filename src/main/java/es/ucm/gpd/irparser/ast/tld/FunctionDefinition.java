@@ -20,8 +20,12 @@ import es.ucm.gpd.irparser.ast.BaseFunctionDefinition;
 import es.ucm.gpd.irparser.ast.VariableDeclaration;
 import es.ucm.gpd.irparser.ast.expr.Expression;
 import es.ucm.gpd.irparser.ast.metadata.FunctionMetadata;
+import es.ucm.gpd.irparser.ast.metadata.MetadataType;
+import es.ucm.sexp.Atom;
+import es.ucm.sexp.Cons;
 
 import java.util.List;
+import java.util.Map;
 
 import static es.ucm.sexp.SexpUtils.listToCons;
 
@@ -37,7 +41,7 @@ public class FunctionDefinition
     public FunctionDefinition(String functionName,
                               List<VariableDeclaration> formalParameters,
                               List<VariableDeclaration> returnType,
-                              FunctionMetadata functionMetadata,
+                              Map<MetadataType, FunctionMetadata> functionMetadata,
                               Expression expr) {
         super(functionName, functionMetadata, formalParameters, returnType,
                 expr);
@@ -49,7 +53,18 @@ public class FunctionDefinition
                 functionName,
                 listToCons(formalParameters),
                 returnType,
-                functionMetadata,
+                mapToAlist(functionMetadata),
                 expr);
+    }
+
+    private Cons mapToAlist(Map<MetadataType, FunctionMetadata> map) {
+        Cons c = null;
+        for (Map.Entry<MetadataType, FunctionMetadata> e : map.entrySet()) {
+            final Cons current = new Cons(new Atom(e.getKey().toString()),
+                    new Atom(e.getValue().toString()));
+            c = new Cons(current, c);
+        }
+        return c;
+
     }
 }

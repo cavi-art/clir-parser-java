@@ -16,24 +16,9 @@
 
 package es.ucm.gpd.irparser.ast.metadata;
 
-import es.ucm.gpd.irparser.ast.assertion.AssertionExpr;
-import es.ucm.gpd.irparser.ast.assertion.AssertionType;
-
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
-
 /**
  * @author Santiago Saavedra
  */
-public class Assertion implements FunctionMetadata {
-    private final Map<AssertionType, AssertionExpr> assertions;
-
-    public Assertion(Map<AssertionType, AssertionExpr> assertions) {
-        this.assertions = assertions;
-    }
-
-    public Map<AssertionType, AssertionExpr> getAssertions() {
-        return Collections.unmodifiableMap(assertions);
-    }
+public enum MetadataType {
+    Assertion
 }

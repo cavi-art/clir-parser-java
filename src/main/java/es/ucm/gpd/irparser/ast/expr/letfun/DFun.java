@@ -20,8 +20,10 @@ import es.ucm.gpd.irparser.ast.BaseFunctionDefinition;
 import es.ucm.gpd.irparser.ast.VariableDeclaration;
 import es.ucm.gpd.irparser.ast.expr.Expression;
 import es.ucm.gpd.irparser.ast.metadata.FunctionMetadata;
+import es.ucm.gpd.irparser.ast.metadata.MetadataType;
 
 import java.util.List;
+import java.util.Map;
 
 import static es.ucm.sexp.SexpUtils.listToCons;
 
@@ -30,7 +32,7 @@ import static es.ucm.sexp.SexpUtils.listToCons;
  * @author Santiago Saavedra
  */
 public class DFun extends BaseFunctionDefinition {
-    public DFun(String functionName, FunctionMetadata functionMetadata,
+    public DFun(String functionName, Map<MetadataType, FunctionMetadata> functionMetadata,
                 List<VariableDeclaration> formalParameters,
                 List<VariableDeclaration> returnType, Expression expr) {
         super(functionName, functionMetadata, formalParameters,

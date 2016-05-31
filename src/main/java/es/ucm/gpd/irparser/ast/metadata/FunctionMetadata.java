@@ -16,6 +16,16 @@
 
 package es.ucm.gpd.irparser.ast.metadata;
 
+import es.ucm.gpd.irparser.ast.assertion.AssertionExpr;
+import es.ucm.gpd.irparser.ast.assertion.AssertionType;
+import es.ucm.sexp.SexpParser;
+
+import java.util.HashMap;
+import java.util.Map;
+
+import static es.ucm.gpd.irparser.Sexp2Ast.parseAssertion;
+import static es.ucm.sexp.SexpUtils.*;
+
 /**
  * This is a declaration which can be either assertion, optimize and metadata
  * TODO make subclasses
@@ -23,4 +33,43 @@ package es.ucm.gpd.irparser.ast.metadata;
  * @author Santiago Saavedra
  */
 public interface FunctionMetadata {
+    static Map<MetadataType, FunctionMetadata> fromAList(SexpParser.Expr metacons) {
+        final Map<MetadataType, FunctionMetadata> map = new HashMap<>();
+
+        while (metacons != null) {
+            final SexpParser.Expr elt = car(metacons);
+
+            switch (car(elt).getAtom().toString().toLowerCase()) {
+                case "assertion":
+                    SexpParser.Expr assertions = cdr(elt);
+                    Map<AssertionType, AssertionExpr> assertionsMap = new
+                            HashMap<>();
+
+                    while (assertions != null) {
+                        final SexpParser.Expr key = car(assertions);
+                        switch (car(key).getAtom().toString().toLowerCase()) {
+                            case "precd":
+                                assertionsMap.put(AssertionType.PreCD,
+                                        parseAssertion(cadr(key)));
+                                break;
+                            case "postcd":
+                                assertionsMap.put(AssertionType.PostCD,
+                                        parseAssertion(cadr(key)));
+                                break;
+                            default:
+                                throw new RuntimeException(
+                                        "Unknown assertion type " + car(key)
+                                );
+                        }
+                        assertions = cdr(assertions);
+                    }
+                    map.put(MetadataType.Assertion, new Assertion
+                            (assertionsMap));
+            }
+
+            metacons = cdr(metacons);
+        }
+
+        return map;
+    }
 }

@@ -40,7 +40,10 @@ public class VerificationUnit {
 
     public VerificationUnit(String packageName, List<ToplevelDefinition> toplevelForms, List<String> usedPackages, String documentation, List<String> verifyOnly, List<String> assumeVerified) {
         this.packageName = packageName;
-        this.toplevelForms = Collections.unmodifiableList(toplevelForms);
+        this.toplevelForms = toplevelForms != null
+                ? Collections.unmodifiableList(toplevelForms)
+                : null;
+
         this.usedPackages = Collections.unmodifiableList(usedPackages);
         this.documentation = documentation;
         this.verifyOnly = Collections.unmodifiableList(verifyOnly);
