@@ -15,6 +15,12 @@ that, `irFileParser.parseAllToplevel()` returns all the toplevel forms.
 Further information can be seen in the interfaces and implementing classes.
 
 
+Examples
+========
+
+Examples can be found on the vcgen repository at [cavi-art/clir-vcgen][vcgen].
+
+
 Using on your own project
 =========================
 
@@ -47,3 +53,4 @@ tRansformation and Testing.
 
   [flow]: https://guides.github.com/introduction/flow/
   [rel]: https://github.com/cavi-art/clir-parser-java/releases
+  [vcgen]: https://github.com/cavi-art/clir-vcgen/tree/master/test
