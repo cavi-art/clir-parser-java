@@ -180,7 +180,7 @@ public class Sexp2Ast {
         }
 
         if (car(expr).toString().equalsIgnoreCase("case")) {
-            AtomicExpression discriminant = parseAtomicExpr(cadr(expr));
+            Atom discriminant = parseAtom(cadr(expr));
             List<CaseAlt<Expression>> alts = consToList(cddr(expr))
                     .stream()
                     .map(e -> new CaseAlt<Expression>(

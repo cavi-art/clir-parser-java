@@ -16,6 +16,7 @@
 
 package es.ucm.gpd.irparser.ast.expr.case_;
 
+import es.ucm.gpd.irparser.ast.expr.Atom;
 import es.ucm.gpd.irparser.ast.expr.AtomicExpression;
 import es.ucm.gpd.irparser.ast.expr.Expression;
 import es.ucm.gpd.irparser.ast.type.Type;
@@ -38,15 +39,15 @@ public class CaseExpr implements Expression {
     /* TODO Should the default case be here as a distinct variable to
     enforce the fact that there must always be a default case? */
 
-    private final AtomicExpression discriminant;
+    private final Atom discriminant;
     private final List<CaseAlt<Expression>> alts;
 
-    public CaseExpr(AtomicExpression discriminant, List<CaseAlt<Expression>> alts) {
+    public CaseExpr(Atom discriminant, List<CaseAlt<Expression>> alts) {
         this.discriminant = discriminant;
         this.alts = alts;
     }
 
-    public AtomicExpression getDiscriminant() {
+    public Atom getDiscriminant() {
         return discriminant;
     }
 
