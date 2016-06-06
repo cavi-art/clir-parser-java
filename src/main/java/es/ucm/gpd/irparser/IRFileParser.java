@@ -84,7 +84,7 @@ public class IRFileParser implements Iterator<VerificationUnit> {
         System.out.println("Usage: java -jar IRFileParser file.clir");
     }
 
-    private List<VerificationUnit> parseAllToplevel() {
+    public List<VerificationUnit> parseAllToplevel() {
         List<VerificationUnit> toplevel = new ArrayList<>();
         while (sexp.hasNext()) {
             toplevel.add(next());
