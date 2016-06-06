@@ -208,7 +208,8 @@ public class Sexp2Ast {
             return new CaseConstant<>((Constant) parseAtom(expr));
         }
 
-        if (carEqualsIgnoreCase(expr, "default")) {
+        if (expr.isAtom() &&
+                expr.getAtom().toString().equalsIgnoreCase("default")) {
             return new DefaultCase();
         }
 
@@ -301,8 +302,10 @@ public class Sexp2Ast {
         }
         switch (car(expr).getAtom().toString().toLowerCase()) {
             case "forall":
+            case ":forall":
                 return parseQuantified(Quantifier.Forall, cdr(expr));
             case "exists":
+            case ":exists":
                 return parseQuantified(Quantifier.Exists, cdr(expr));
             case "@":
                 return parseApplication(cdr(expr));
