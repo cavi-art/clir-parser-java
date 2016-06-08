@@ -1,5 +1,7 @@
 Java CLIR Parser
 ================
+[![Build Status](https://travis-ci.org/cavi-art/clir-parser-java.svg?branch=master)](https://travis-ci.org/cavi-art/clir-parser-java)
+[![Download with JitPack](https://jitpack.io/v/cavi-art/clir-parser-java.svg)](https://jitpack.io/#cavi-art/clir-parser-java)
 
 This is a CAVI-ART IR Parser written in Java. After parsing, the full 
 Abstract Syntax Tree is generated so that further analysis can be performed
