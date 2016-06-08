@@ -184,7 +184,7 @@ public class Sexp2Ast {
             List<CaseAlt<Expression>> alts = consToList(cddr(expr))
                     .stream()
                     .map(e -> new CaseAlt<Expression>(
-                            parseCasePattern(car(e)), parseAtomicExpr(cadr(e))
+                            parseCasePattern(car(e)), parseExpr(cadr(e))
                     ))
                     .collect(Collectors.toList());
 
