@@ -18,30 +18,35 @@ package es.ucm.gpd.irparser.ast.expr.case_;
 
 import es.ucm.gpd.irparser.IRFileParser;
 import es.ucm.gpd.irparser.ast.VerificationUnit;
-import es.ucm.gpd.irparser.ast.expr.Atom;
 import es.ucm.gpd.irparser.ast.expr.Expression;
-import es.ucm.gpd.irparser.ast.expr.Var;
+import es.ucm.gpd.irparser.ast.expr.FunctionApplication;
+import es.ucm.gpd.irparser.ast.expr.let.LetExpr;
 import es.ucm.gpd.irparser.ast.tld.FunctionDefinition;
-import es.ucm.gpd.irparser.ast.tld.ToplevelDefinition;
+import es.ucm.gpd.irparser.ast.type.SimpleType;
+import org.junit.Test;
 
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
 import java.util.List;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertTrue;
 
 /**
  * @author Santiago Saavedra
  */
-public class CaseExprTest {
+public class CaseExprCompoundExprTest {
     private static final String IN = "(verification-unit \"TEST\"\n" +
             ":sources (((:lang :clir) (:module :self)))\n" +
             ":uses (:ir)\n" +
             ":documentation \"This is a simple test\"\n" +
             ")\n\n" +
             "(define test ((v int)) ((r int))\n" +
-            "  (declare (assertion (precd true) (postcd (@ = v r))))\n" +
-            "  (case v (default v)))";
+            "  (declare (assertion \n" +
+            "              (precd true) \n" +
+            "              (postcd (@ = (@ - v 1) r))))\n" +
+            "  (case v\n" +
+            "    (default (let ((v1 int)) (@ - v 1) \n" +
+            "               v1))))";
 
     private InputStream in;
     private IRFileParser parser;
@@ -56,23 +61,15 @@ public class CaseExprTest {
         expr = (CaseExpr) definition.getExpr();
     }
 
-    @org.junit.Test
-    public void getDiscriminant() throws Exception {
-        assertTrue(expr.getDiscriminant() instanceof Var);
-        assertTrue(((Var)expr.getDiscriminant()).getName().equals("v"));
-    }
-
-    @org.junit.Test
+    @Test
     public void getAlts() throws Exception {
+
         assertTrue(this.expr.getAlts().size() == 1);
         CaseAlt<Expression> alt = this.expr.getAlts().get(0);
+        assertTrue(alt.getExpr() instanceof LetExpr);
+        LetExpr expr = (LetExpr) alt.getExpr();
 
-        assertTrue(alt.getPattern() instanceof DefaultCase);
-        assertTrue(alt.getExpr() instanceof Var);
-
-        Var expr = (Var) alt.getExpr();
-
-        assertTrue(expr.getName().equals("v"));
+        assertTrue(expr.getLhs().getElements().size() == 1);
     }
 
 }
