@@ -26,9 +26,19 @@ Examples can be found on the vcgen repository at [cavi-art/clir-vcgen][vcgen].
 Using on your own project
 =========================
 
-This project is meant to be used as a library. It can either be included as
-a git submodule in your own sources or just include the built jar in your 
-lib folder (get the latest built jar from the [releases][rel]).
+This project is meant to be used as a library.
+
+- You can include it as a git submodule in your own sources
+- You can include the built jar in your lib/ folder (get the latest one from the [releases tab][rel]).
+- **Use maven!** (That's the recommended approach)
+
+Using maven
+-----------
+
+You can get this project from JitPack using maven (or sbt, gradle or leiningen).
+For more information, see: https://jitpack.io/#cavi-art/clir-parser-java
+
+In short, just add the project as a dependency, and include JitPack as a repository in your `pom.xml`.
 
 
 Contributing
