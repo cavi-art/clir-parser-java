@@ -56,6 +56,10 @@ public interface FunctionMetadata {
                                 assertionsMap.put(AssertionType.PostCD,
                                         parseAssertion(cadr(key)));
                                 break;
+                            case "variant":
+                                assertionsMap.put(AssertionType.Variant,
+                                        parseAssertion(cadr(key)));
+                                break;
                             default:
                                 throw new RuntimeException(
                                         "Unknown assertion type " + car(key)
