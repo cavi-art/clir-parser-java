@@ -191,6 +191,15 @@ public class Sexp2Ast {
             return new CaseExpr(discriminant, alts);
         }
 
+        if (car(expr).toString().equalsIgnoreCase("asserts")) {
+            List<AssertionExpr> assertions = consToList(cadr(expr))
+                    .stream()
+                    .map(Sexp2Ast::parseAssertion)
+                    .collect(Collectors.toList());
+            Expression inner = parseExpr(car(cdr(cdr(expr))));
+            return new AssertsExpression(assertions, inner);
+        }
+
         throw new IllegalArgumentException(String.format(
                 "Expected <expr> but found %s", expr.toString()));
     }
