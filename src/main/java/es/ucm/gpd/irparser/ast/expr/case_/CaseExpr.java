@@ -17,7 +17,6 @@
 package es.ucm.gpd.irparser.ast.expr.case_;
 
 import es.ucm.gpd.irparser.ast.expr.Atom;
-import es.ucm.gpd.irparser.ast.expr.AtomicExpression;
 import es.ucm.gpd.irparser.ast.expr.Expression;
 import es.ucm.gpd.irparser.ast.type.Type;
 

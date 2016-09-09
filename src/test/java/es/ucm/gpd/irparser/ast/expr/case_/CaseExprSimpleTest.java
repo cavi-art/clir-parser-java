@@ -18,11 +18,9 @@ package es.ucm.gpd.irparser.ast.expr.case_;
 
 import es.ucm.gpd.irparser.IRFileParser;
 import es.ucm.gpd.irparser.ast.VerificationUnit;
-import es.ucm.gpd.irparser.ast.expr.Atom;
 import es.ucm.gpd.irparser.ast.expr.Expression;
 import es.ucm.gpd.irparser.ast.expr.Var;
 import es.ucm.gpd.irparser.ast.tld.FunctionDefinition;
-import es.ucm.gpd.irparser.ast.tld.ToplevelDefinition;
 
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;

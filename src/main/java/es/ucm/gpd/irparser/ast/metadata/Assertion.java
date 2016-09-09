@@ -20,7 +20,6 @@ import es.ucm.gpd.irparser.ast.assertion.AssertionExpr;
 import es.ucm.gpd.irparser.ast.assertion.AssertionType;
 
 import java.util.Collections;
-import java.util.List;
 import java.util.Map;
 
 /**
