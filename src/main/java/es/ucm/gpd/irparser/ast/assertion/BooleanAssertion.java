@@ -16,8 +16,13 @@
 
 package es.ucm.gpd.irparser.ast.assertion;
 
+import es.ucm.sexp.SexpParser;
+
 import java.util.Collections;
 import java.util.List;
+
+import static es.ucm.gpd.irparser.ast.ASTUtils.reverseConsAfter;
+import static es.ucm.gpd.irparser.ast.ASTUtils.unparseList;
 
 /**
  * This is an assertion made of a list of assertions adjoined by a determined
@@ -43,5 +48,14 @@ public class BooleanAssertion implements AssertionExpr {
 
     public List<AssertionExpr> getExprList() {
         return Collections.unmodifiableList(exprList);
+    }
+
+    @Override
+    public SexpParser.Expr unparse() {
+        return reverseConsAfter(
+                unparseList(exprList),
+
+                op.unparse()
+        );
     }
 }

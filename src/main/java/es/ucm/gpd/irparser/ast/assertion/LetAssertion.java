@@ -19,6 +19,10 @@ package es.ucm.gpd.irparser.ast.assertion;
 import es.ucm.gpd.irparser.ast.expr.AtomicExpression;
 import es.ucm.gpd.irparser.ast.expr.let.LetExpr;
 import es.ucm.gpd.irparser.ast.expr.let.LetVarDecl;
+import es.ucm.sexp.SexpParser;
+
+import static es.ucm.gpd.irparser.ast.ASTUtils.atom;
+import static es.ucm.gpd.irparser.ast.ASTUtils.consList;
 
 /**
  * This assertion introduces a new lexical variable in the scope (or
@@ -51,5 +55,15 @@ public class LetAssertion implements AssertionExpr {
 
     public AssertionExpr getExpr() {
         return expr;
+    }
+
+    @Override
+    public SexpParser.Expr unparse() {
+        return consList(
+                atom("let"),
+                lhs.unparse(),
+                rhs.unparse(),
+                expr.unparse()
+        );
     }
 }

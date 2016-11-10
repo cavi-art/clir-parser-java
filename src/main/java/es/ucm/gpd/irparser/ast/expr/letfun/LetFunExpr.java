@@ -18,9 +18,13 @@ package es.ucm.gpd.irparser.ast.expr.letfun;
 
 import es.ucm.gpd.irparser.ast.expr.Expression;
 import es.ucm.gpd.irparser.ast.type.Type;
+import es.ucm.sexp.SexpParser;
 
 import java.util.Collections;
 import java.util.List;
+
+import static es.ucm.gpd.irparser.ast.ASTUtils.cons;
+import static es.ucm.gpd.irparser.ast.ASTUtils.unparseList;
 
 /**
  * @author Santiago Saavedra
@@ -63,5 +67,12 @@ public class LetFunExpr implements Expression {
         return String.format("(letfun %s\n  %s)",
                 definitions_str,
                 expr);
+    }
+
+    @Override
+    public SexpParser.Expr unparse() {
+        return cons("letfun",
+                cons(unparseList(definitions),
+                        cons(expr.unparse(), null)));
     }
 }

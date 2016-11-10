@@ -14,20 +14,21 @@
  * limitations under the License.
  */
 
-package es.ucm.gpd.irparser.ast.metadata;
+package es.ucm.gpd.irparser.ast;
 
-import es.ucm.gpd.irparser.ast.ASTNode;
-import es.ucm.sexp.Atom;
 import es.ucm.sexp.SexpParser;
 
 /**
+ * Allows to return the S-Expression from the already parsed AST node.
+ *
  * @author Santiago Saavedra
  */
-public enum MetadataType implements ASTNode {
-    Assertion;
-
-    @Override
-    public SexpParser.Expr unparse() {
-        return new Atom(toString().toLowerCase());
-    }
+public interface ASTNode {
+    /**
+     * Return the representation of the type as a Symbolic Expression again.
+     *
+     * @return the {@link es.ucm.sexp.SexpParser.Expr} from this type
+     * expression.
+     */
+    SexpParser.Expr unparse();
 }

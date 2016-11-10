@@ -18,9 +18,13 @@ package es.ucm.gpd.irparser.ast.metadata;
 
 import es.ucm.gpd.irparser.ast.assertion.AssertionExpr;
 import es.ucm.gpd.irparser.ast.assertion.AssertionType;
+import es.ucm.sexp.SexpParser;
 
-import java.util.Collections;
 import java.util.Map;
+
+import static es.ucm.gpd.irparser.ast.ASTUtils.consList;
+import static es.ucm.gpd.irparser.ast.ASTUtils.mapToAlist;
+import static java.util.Collections.unmodifiableMap;
 
 /**
  * @author Santiago Saavedra
@@ -33,6 +37,14 @@ public class Assertion implements FunctionMetadata {
     }
 
     public Map<AssertionType, AssertionExpr> getAssertions() {
-        return Collections.unmodifiableMap(assertions);
+        return unmodifiableMap(assertions);
+    }
+
+    @Override
+    public SexpParser.Expr unparse() {
+        return mapToAlist(assertions, e -> consList(
+                e.getKey().unparse(),
+                e.getValue().unparse()
+        ));
     }
 }

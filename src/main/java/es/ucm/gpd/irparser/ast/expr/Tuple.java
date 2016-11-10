@@ -18,10 +18,14 @@ package es.ucm.gpd.irparser.ast.expr;
 
 import es.ucm.gpd.irparser.ast.type.CompoundType;
 import es.ucm.gpd.irparser.ast.type.Type;
+import es.ucm.sexp.SexpParser;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
+
+import static es.ucm.gpd.irparser.ast.ASTUtils.consList;
+import static es.ucm.gpd.irparser.ast.ASTUtils.unparseList;
 
 /**
  * @author Santiago Saavedra
@@ -38,12 +42,16 @@ public class Tuple implements AtomicExpression {
     }
 
     public Type getType() {
-        List<Type> elementTypes = new ArrayList<>();
-
-        for (Atom e : elements) {
-            elementTypes.add(e.getType());
-        }
+        List<Type> elementTypes = elements
+                .stream()
+                .map(Expression::getType)
+                .collect(Collectors.toList());
 
         return new CompoundType("tuple", elementTypes);
+    }
+
+    @Override
+    public SexpParser.Expr unparse() {
+        return consList(new es.ucm.sexp.Atom("tuple"), unparseList(elements));
     }
 }

@@ -16,10 +16,15 @@
 
 package es.ucm.gpd.irparser.ast.expr.case_;
 
+import es.ucm.gpd.irparser.ast.ASTNode;
+import es.ucm.sexp.SexpParser;
+
+import static es.ucm.gpd.irparser.ast.ASTUtils.consList;
+
 /**
  * Each case alternative is made of one of this nodes.
  */
-public class CaseAlt<T> {
+public class CaseAlt<T extends ASTNode> implements ASTNode {
     private final CasePattern pattern;
     private final T expr;
 
@@ -35,5 +40,10 @@ public class CaseAlt<T> {
 
     public T getExpr() {
         return expr;
+    }
+
+    @Override
+    public SexpParser.Expr unparse() {
+        return consList(pattern.unparse(), expr.unparse());
     }
 }

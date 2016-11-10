@@ -16,6 +16,11 @@
 
 package es.ucm.gpd.irparser.ast.assertion;
 
+import es.ucm.sexp.SexpParser;
+
+import static es.ucm.gpd.irparser.ast.ASTUtils.atom;
+import static es.ucm.gpd.irparser.ast.ASTUtils.consList;
+
 /**
  * This assertion contradicts the inner one.
  *
@@ -30,5 +35,13 @@ public class NotAssertion implements AssertionExpr {
 
     public AssertionExpr getExpr() {
         return expr;
+    }
+
+    @Override
+    public SexpParser.Expr unparse() {
+        return consList(
+                atom("not"),
+                expr.unparse()
+        );
     }
 }

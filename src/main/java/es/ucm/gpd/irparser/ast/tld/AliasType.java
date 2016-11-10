@@ -17,6 +17,10 @@
 package es.ucm.gpd.irparser.ast.tld;
 
 import es.ucm.gpd.irparser.ast.type.Type;
+import es.ucm.sexp.SexpParser;
+
+import static es.ucm.gpd.irparser.ast.ASTUtils.atom;
+import static es.ucm.gpd.irparser.ast.ASTUtils.consList;
 
 /**
  * This is a type alias, so that the new type declaration should be
@@ -46,5 +50,14 @@ public class AliasType implements ToplevelDefinition {
 
     public Type getOriginal() {
         return original;
+    }
+
+    // TODO: Syntax is not yet fixed here
+    @Override
+    public SexpParser.Expr unparse() {
+        return consList(atom("type"),
+                alias.unparse(),
+                original.unparse()
+        );
     }
 }

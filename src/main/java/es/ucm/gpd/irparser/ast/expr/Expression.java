@@ -16,11 +16,12 @@
 
 package es.ucm.gpd.irparser.ast.expr;
 
+import es.ucm.gpd.irparser.ast.ASTNode;
 import es.ucm.gpd.irparser.ast.type.Type;
 
 /**
  * @author Santiago Saavedra
  */
-public interface Expression {
+public interface Expression extends ASTNode {
     Type getType();
 }

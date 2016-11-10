@@ -19,6 +19,9 @@ package es.ucm.gpd.irparser.ast;
 import es.ucm.gpd.irparser.ast.expr.Expression;
 import es.ucm.gpd.irparser.ast.metadata.FunctionMetadata;
 import es.ucm.gpd.irparser.ast.metadata.MetadataType;
+import es.ucm.sexp.Atom;
+import es.ucm.sexp.Cons;
+import es.ucm.sexp.SexpParser;
 
 import java.util.Collections;
 import java.util.List;
@@ -64,4 +67,24 @@ public class BaseFunctionDefinition {
     public Expression getExpr() {
         return expr;
     }
+
+    public SexpParser.Expr unparse() {
+        SexpParser.Expr metadataOrExpr = new Cons(expr.unparse(), null);
+
+        if (functionMetadata != null) {
+            Cons metaExpr = new Cons(new Atom("declare"),
+                    ASTUtils.mapToAlist(functionMetadata));
+
+            metadataOrExpr = new Cons(metaExpr, metadataOrExpr);
+        }
+
+        return new Cons(new Atom(functionName),
+                new Cons(ASTUtils.unparseList(formalParameters),
+                        new Cons(ASTUtils.unparseList(returnType),
+                                metadataOrExpr
+                        )
+                )
+        );
+    }
+
 }

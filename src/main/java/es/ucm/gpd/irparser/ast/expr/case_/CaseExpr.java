@@ -19,10 +19,12 @@ package es.ucm.gpd.irparser.ast.expr.case_;
 import es.ucm.gpd.irparser.ast.expr.Atom;
 import es.ucm.gpd.irparser.ast.expr.Expression;
 import es.ucm.gpd.irparser.ast.type.Type;
+import es.ucm.sexp.SexpParser;
 
 import java.util.Collections;
 import java.util.List;
 
+import static es.ucm.gpd.irparser.ast.ASTUtils.*;
 import static es.ucm.sexp.SexpUtils.listToCons;
 
 
@@ -66,4 +68,13 @@ public class CaseExpr implements Expression {
                 listToCons(alts));
     }
 
+    @Override
+    public SexpParser.Expr unparse() {
+        return reverseConsAfter(
+                unparseList(alts),
+
+                atom("case"),
+                discriminant.unparse()
+        );
+    }
 }

@@ -16,6 +16,10 @@
 
 package es.ucm.gpd.irparser.ast.assertion;
 
+import es.ucm.sexp.SexpParser;
+
+import static es.ucm.gpd.irparser.ast.ASTUtils.atom;
+
 /**
  * This is the never satisfiable assertion. The opposite of this is the {@link
  * TrueAssertion }
@@ -26,4 +30,8 @@ package es.ucm.gpd.irparser.ast.assertion;
  * @see AssertionExpr
  */
 public class FalseAssertion implements AssertionExpr {
+    @Override
+    public SexpParser.Expr unparse() {
+        return atom("false");
+    }
 }

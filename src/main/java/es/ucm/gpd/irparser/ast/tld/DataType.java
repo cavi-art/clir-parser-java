@@ -16,10 +16,14 @@
 
 package es.ucm.gpd.irparser.ast.tld;
 
+import es.ucm.gpd.irparser.ast.ASTNode;
 import es.ucm.gpd.irparser.ast.type.Type;
+import es.ucm.sexp.SexpParser;
 
 import java.util.Collections;
 import java.util.List;
+
+import static es.ucm.gpd.irparser.ast.ASTUtils.*;
 
 /**
  * @author Santiago Saavedra
@@ -43,13 +47,23 @@ public class DataType implements ToplevelDefinition {
                 Collections.unmodifiableList(alternatives);
     }
 
+    // TODO: Syntax is not yet fixed here
+    @Override
+    public SexpParser.Expr unparse() {
+        return consList(
+                atom("datatype"),
+                newName.unparse(),
+                unparseList(alternatives)
+        );
+    }
+
     /**
      * This class represents the alternatives of the constructed types for a
      * <b>data</b> declaration.
      */
-    public static class ConstructedType {
-        private String constructor;
-        private Type typeExpr;
+    public static class ConstructedType implements ASTNode {
+        private final String constructor;
+        private final Type typeExpr;
 
         public ConstructedType(String constructor, Type typeExpr) {
             this.constructor = constructor;
@@ -62,6 +76,15 @@ public class DataType implements ToplevelDefinition {
 
         public Type getTypeExpr() {
             return typeExpr;
+        }
+
+        // TODO: Syntax not yet fixed
+        @Override
+        public SexpParser.Expr unparse() {
+            return consList(atom("@@"),
+                    atom(constructor),
+                    typeExpr.unparse()
+            );
         }
     }
 

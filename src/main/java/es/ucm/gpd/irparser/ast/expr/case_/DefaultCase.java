@@ -16,8 +16,16 @@
 
 package es.ucm.gpd.irparser.ast.expr.case_;
 
+import es.ucm.sexp.SexpParser;
+
+import static es.ucm.gpd.irparser.ast.ASTUtils.atom;
+
 /**
  * @author Santiago Saavedra
  */
 public class DefaultCase implements CasePattern {
+    @Override
+    public SexpParser.Expr unparse() {
+        return atom("default");
+    }
 }

@@ -20,8 +20,11 @@ import es.ucm.gpd.irparser.ast.expr.AtomicExpression;
 import es.ucm.gpd.irparser.ast.expr.Expression;
 import es.ucm.gpd.irparser.ast.expr.case_.CaseAlt;
 import es.ucm.gpd.irparser.ast.expr.case_.CaseExpr;
+import es.ucm.sexp.SexpParser;
 
 import java.util.List;
+
+import static es.ucm.gpd.irparser.ast.ASTUtils.*;
 
 
 /**
@@ -50,5 +53,14 @@ public class CaseAssertion implements AssertionExpr {
 
     public List<CaseAlt<AssertionExpr>> getAlts() {
         return alts;
+    }
+
+    @Override
+    public SexpParser.Expr unparse() {
+        return consList(
+                atom("case"),
+                discriminant.unparse(),
+                unparseList(alts)
+        );
     }
 }

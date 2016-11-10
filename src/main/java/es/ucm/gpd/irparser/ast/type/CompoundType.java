@@ -16,6 +16,9 @@
 
 package es.ucm.gpd.irparser.ast.type;
 
+import es.ucm.sexp.Cons;
+import es.ucm.sexp.SexpParser;
+
 import java.util.Collections;
 import java.util.List;
 
@@ -45,5 +48,14 @@ public class CompoundType extends Type {
 
     public String toString() {
         return String.format("(%s %s)", name, listToCons(expr));
+    }
+
+    @Override
+    public SexpParser.Expr unparse() {
+        SexpParser.Expr e = null;
+        for (int i = expr.size(); i >= 0; i--) {
+            e = new Cons(expr.get(i).unparse(), e);
+        }
+        return e;
     }
 }

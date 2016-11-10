@@ -19,6 +19,10 @@ package es.ucm.gpd.irparser.ast.expr.let;
 import es.ucm.gpd.irparser.ast.expr.AtomicExpression;
 import es.ucm.gpd.irparser.ast.expr.Expression;
 import es.ucm.gpd.irparser.ast.type.Type;
+import es.ucm.sexp.SexpParser;
+
+import static es.ucm.gpd.irparser.ast.ASTUtils.atom;
+import static es.ucm.gpd.irparser.ast.ASTUtils.consList;
 
 /**
  * @author Santiago Saavedra
@@ -56,5 +60,15 @@ public class LetExpr implements Expression {
     public String toString() {
         return String.format("(let (%s) %s \n    %s)",
                 lhs, rhs, expr);
+    }
+
+    @Override
+    public SexpParser.Expr unparse() {
+        return consList(
+                atom("let"),
+                lhs.unparse(),
+                rhs.unparse(),
+                expr.unparse()
+        );
     }
 }

@@ -17,6 +17,7 @@
 package es.ucm.gpd.irparser.ast.expr;
 
 import es.ucm.gpd.irparser.ast.type.Type;
+import es.ucm.sexp.SexpParser;
 
 /**
  * This is a variable usage.
@@ -25,23 +26,32 @@ import es.ucm.gpd.irparser.ast.type.Type;
  */
 public class Var implements Atom {
     private final String name;
-    private final Type type;
 
-    public Var(String name, Type type) {
+    public Var(String name) {
         this.name = name;
-        this.type = type;
+    }
+
+    @Deprecated
+    public Var(String name, Type _unused_type) {
+        this(name);
     }
 
     public String getName() {
         return name;
     }
 
+    @Deprecated
     public Type getType() {
-        return type;
+        return null;
     }
 
     @Override
     public String toString() {
-        return String.format("(var %s)", name);
+        return String.format("%s", name);
+    }
+
+    @Override
+    public SexpParser.Expr unparse() {
+        return new es.ucm.sexp.Atom(getName());
     }
 }

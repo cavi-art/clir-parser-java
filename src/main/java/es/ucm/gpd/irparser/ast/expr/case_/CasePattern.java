@@ -16,8 +16,10 @@
 
 package es.ucm.gpd.irparser.ast.expr.case_;
 
+import es.ucm.gpd.irparser.ast.ASTNode;
+
 /**
  * @author Santiago Saavedra
  */
-public interface CasePattern {
+public interface CasePattern extends ASTNode {
 }

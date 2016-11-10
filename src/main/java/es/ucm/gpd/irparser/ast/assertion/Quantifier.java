@@ -16,12 +16,17 @@
 
 package es.ucm.gpd.irparser.ast.assertion;
 
+import es.ucm.gpd.irparser.ast.ASTNode;
+import es.ucm.sexp.SexpParser;
+
+import static es.ucm.gpd.irparser.ast.ASTUtils.atom;
+
 /**
  * These are the two quantifiers that we have in our logic.
  *
  * @author Santiago Saavedra
  */
-public enum Quantifier {
+public enum Quantifier implements ASTNode {
 
     /**
      * The universal quantifier.
@@ -31,5 +36,10 @@ public enum Quantifier {
     /**
      * The existential quantifier.
      */
-    Exists,
+    Exists;
+
+    @Override
+    public SexpParser.Expr unparse() {
+        return atom(name().toLowerCase());
+    }
 }

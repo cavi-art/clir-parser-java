@@ -17,9 +17,13 @@
 package es.ucm.gpd.irparser.ast.assertion;
 
 import es.ucm.gpd.irparser.ast.VariableDeclaration;
+import es.ucm.sexp.SexpParser;
 
 import java.util.Collections;
 import java.util.List;
+
+import static es.ucm.gpd.irparser.ast.ASTUtils.consList;
+import static es.ucm.gpd.irparser.ast.ASTUtils.unparseList;
 
 /**
  * This assertion introduces existentially- or universally-quantified typed
@@ -52,5 +56,14 @@ public class QuantifiedAssertion implements AssertionExpr {
 
     public AssertionExpr getExpr() {
         return expr;
+    }
+
+    @Override
+    public SexpParser.Expr unparse() {
+        return consList(
+                quantifier.unparse(),
+                unparseList(declarations),
+                expr.unparse()
+        );
     }
 }

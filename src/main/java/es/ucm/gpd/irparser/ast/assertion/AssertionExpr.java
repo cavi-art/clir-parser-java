@@ -16,8 +16,10 @@
 
 package es.ucm.gpd.irparser.ast.assertion;
 
+import es.ucm.gpd.irparser.ast.ASTNode;
+
 /**
  * @author Santiago Saavedra
  */
-public interface AssertionExpr {
+public interface AssertionExpr extends ASTNode {
 }

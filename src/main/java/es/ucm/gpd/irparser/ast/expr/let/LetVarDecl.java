@@ -16,15 +16,19 @@
 
 package es.ucm.gpd.irparser.ast.expr.let;
 
+import es.ucm.gpd.irparser.ast.ASTNode;
 import es.ucm.gpd.irparser.ast.VariableDeclaration;
+import es.ucm.sexp.SexpParser;
 
 import java.util.Collections;
 import java.util.List;
 
+import static es.ucm.gpd.irparser.ast.ASTUtils.unparseList;
+
 /**
  * @author Santiago Saavedra
  */
-public class LetVarDecl {
+public class LetVarDecl implements ASTNode {
     private final List<VariableDeclaration> elements;
 
     public LetVarDecl(List<VariableDeclaration> elements) {
@@ -34,5 +38,10 @@ public class LetVarDecl {
 
     public List<VariableDeclaration> getElements() {
         return Collections.unmodifiableList(elements);
+    }
+
+    @Override
+    public SexpParser.Expr unparse() {
+        return unparseList(elements);
     }
 }

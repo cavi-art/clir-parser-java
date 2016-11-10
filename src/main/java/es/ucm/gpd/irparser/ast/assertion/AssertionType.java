@@ -16,9 +16,18 @@
 
 package es.ucm.gpd.irparser.ast.assertion;
 
+import es.ucm.gpd.irparser.ast.ASTNode;
+import es.ucm.sexp.Atom;
+import es.ucm.sexp.SexpParser;
+
 /**
  * @author Santiago Saavedra
  */
-public enum AssertionType {
-    PreCD, PostCD, Invariant, Variant,
+public enum AssertionType implements ASTNode {
+    PreCD, PostCD, Invariant, Variant;
+
+    @Override
+    public SexpParser.Expr unparse() {
+        return new Atom(toString().toLowerCase());
+    }
 }

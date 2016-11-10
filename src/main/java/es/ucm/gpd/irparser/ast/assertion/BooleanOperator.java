@@ -16,9 +16,24 @@
 
 package es.ucm.gpd.irparser.ast.assertion;
 
+import es.ucm.gpd.irparser.ast.ASTNode;
+import es.ucm.sexp.Atom;
+import es.ucm.sexp.SexpParser;
+
 /**
  * @author Santiago Saavedra
  */
-public enum BooleanOperator {
-    And, Or, Implies, DoubleImplies,
+public enum BooleanOperator implements ASTNode {
+    And("and"), Or("or"), Implies("->"), DoubleImplies("<->"),;
+
+    private final String sexpName;
+
+    BooleanOperator(String s) {
+        sexpName = s;
+    }
+
+    @Override
+    public SexpParser.Expr unparse() {
+        return new Atom(sexpName);
+    }
 }

@@ -17,16 +17,23 @@
 package es.ucm.gpd.irparser.ast.expr.case_;
 
 import es.ucm.gpd.irparser.IRFileParser;
+import es.ucm.gpd.irparser.ast.ASTUtils;
 import es.ucm.gpd.irparser.ast.VerificationUnit;
 import es.ucm.gpd.irparser.ast.expr.Expression;
 import es.ucm.gpd.irparser.ast.expr.let.LetExpr;
 import es.ucm.gpd.irparser.ast.tld.FunctionDefinition;
+import es.ucm.sexp.Atom;
+import es.ucm.sexp.Cons;
+import es.ucm.sexp.SexpParser;
 import org.junit.Test;
 
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
+import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 /**
@@ -49,13 +56,14 @@ public class CaseExprCompoundExprTest {
     private InputStream in;
     private IRFileParser parser;
     private CaseExpr expr;
+    private FunctionDefinition definition;
 
     @org.junit.Before
     public void setUp() throws Exception {
         in = new ByteArrayInputStream(IN.getBytes());
         parser = new IRFileParser(in);
         List<VerificationUnit> list = parser.parseAllToplevel();
-        FunctionDefinition definition = (FunctionDefinition) list.get(0).getToplevelForms().get(0);
+        definition = (FunctionDefinition) list.get(0).getToplevelForms().get(0);
         expr = (CaseExpr) definition.getExpr();
     }
 
@@ -68,6 +76,57 @@ public class CaseExprCompoundExprTest {
         LetExpr expr = (LetExpr) alt.getExpr();
 
         assertTrue(expr.getLhs().getElements().size() == 1);
+    }
+
+    private Atom a(String s) {
+        return new Atom(s);
+    }
+
+    private SexpParser.Expr consList(String... atoms) {
+        SexpParser.Expr[] a = Arrays
+                .stream(atoms)
+                .map(this::a)
+                .collect(Collectors.toList())
+                .toArray(new SexpParser.Expr[atoms.length]);
+
+        return consList(a);
+    }
+
+    private SexpParser.Expr consList(SexpParser.Expr... exprs) {
+        return ASTUtils.consList(exprs);
+    }
+
+    private SexpParser.Expr consList(String atom, SexpParser.Expr... exprs) {
+        return new Cons(a(atom), ASTUtils.consList(exprs));
+    }
+
+    @Test
+    public void unparse() throws Exception {
+        SexpParser.Expr expected = consList(
+                a("define"),
+                a("test"),
+                consList(consList("v", "int")),
+                consList(consList("r", "int")),
+                consList("declare",
+                        consList("assertion",
+                                consList("postcd",
+                                        consList("@", a("="),
+                                                consList("@", "-", "v",
+                                                        "1"),
+                                                a("r"))),
+                                consList("precd", "true"))),
+                consList("case", a("v"),
+                        consList("default",
+                                consList("let",
+                                        consList(consList("v1", "int")),
+                                        consList("@", "-", "v", "1"),
+                                        a("v1")
+                                )
+                        )
+                )
+        );
+
+        assertEquals(expected, this.definition.unparse());
     }
 
 }

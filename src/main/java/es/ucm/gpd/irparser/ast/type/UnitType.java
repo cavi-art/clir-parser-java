@@ -16,6 +16,8 @@
 
 package es.ucm.gpd.irparser.ast.type;
 
+import es.ucm.sexp.SexpParser;
+
 /**
  * @author Santiago Saavedra
  */
@@ -24,5 +26,10 @@ public class UnitType extends Type {
     @Override
     public String toString() {
         return "()";
+    }
+
+    @Override
+    public SexpParser.Expr unparse() {
+        return null;
     }
 }

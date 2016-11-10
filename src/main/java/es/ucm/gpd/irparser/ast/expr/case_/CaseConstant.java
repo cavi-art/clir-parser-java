@@ -17,6 +17,7 @@
 package es.ucm.gpd.irparser.ast.expr.case_;
 
 import es.ucm.gpd.irparser.ast.expr.Constant;
+import es.ucm.sexp.SexpParser;
 
 /**
  * @author Santiago Saavedra
@@ -35,5 +36,10 @@ public class CaseConstant<T> implements CasePattern {
     @Override
     public String toString() {
         return constant.toString();
+    }
+
+    @Override
+    public SexpParser.Expr unparse() {
+        return constant.unparse();
     }
 }

@@ -17,11 +17,14 @@
 package es.ucm.gpd.irparser.ast;
 
 import es.ucm.gpd.irparser.ast.type.Type;
+import es.ucm.sexp.Atom;
+import es.ucm.sexp.Cons;
+import es.ucm.sexp.SexpParser;
 
 /**
  * @author Santiago Saavedra
  */
-public class VariableDeclaration {
+public class VariableDeclaration implements ASTNode {
     private final Type type;
     private final String name;
 
@@ -41,5 +44,11 @@ public class VariableDeclaration {
 
     public String toString() {
         return String.format("(%s %s)", name, type);
+    }
+
+    @Override
+    public SexpParser.Expr unparse() {
+        return new Cons(new Atom(getName()),
+                new Cons(getType().unparse(), null));
     }
 }

@@ -17,9 +17,12 @@
 package es.ucm.gpd.irparser.ast.expr.case_;
 
 import es.ucm.gpd.irparser.ast.VariableDeclaration;
+import es.ucm.sexp.SexpParser;
 
 import java.util.Collections;
 import java.util.List;
+
+import static es.ucm.gpd.irparser.ast.ASTUtils.*;
 
 /**
  * @author Santiago Saavedra
@@ -41,5 +44,15 @@ public class CasePatternConstructorApplication implements
 
     public List<VariableDeclaration> getArguments() {
         return Collections.unmodifiableList(arguments);
+    }
+
+    @Override
+    public SexpParser.Expr unparse() {
+        return reverseConsAfter(
+                unparseList(arguments),
+
+                atom("@@"),
+                atom(constructorName)
+        );
     }
 }

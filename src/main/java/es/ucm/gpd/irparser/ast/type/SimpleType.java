@@ -16,6 +16,9 @@
 
 package es.ucm.gpd.irparser.ast.type;
 
+import es.ucm.sexp.Atom;
+import es.ucm.sexp.SexpParser;
+
 /**
  * @author Santiago Saavedra
  */
@@ -34,5 +37,10 @@ public class SimpleType extends Type {
     @Override
     public String toString() {
         return name;
+    }
+
+    @Override
+    public SexpParser.Expr unparse() {
+        return new Atom(name);
     }
 }

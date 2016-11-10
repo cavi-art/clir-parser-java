@@ -16,6 +16,8 @@
 
 package es.ucm.gpd.irparser.ast.metadata;
 
+import es.ucm.sexp.SexpParser;
+
 /**
  * TODO Know what do we need to put here. For now we can just discard this
  * information.
@@ -23,4 +25,8 @@ package es.ucm.gpd.irparser.ast.metadata;
  * @author Santiago Saavedra
  */
 public class Metadata implements FunctionMetadata {
+    @Override
+    public SexpParser.Expr unparse() {
+        return null;
+    }
 }

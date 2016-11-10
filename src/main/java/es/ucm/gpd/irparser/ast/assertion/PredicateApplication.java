@@ -17,9 +17,12 @@
 package es.ucm.gpd.irparser.ast.assertion;
 
 import es.ucm.gpd.irparser.ast.expr.AtomicExpression;
+import es.ucm.sexp.SexpParser;
 
 import java.util.Collections;
 import java.util.List;
+
+import static es.ucm.gpd.irparser.ast.ASTUtils.*;
 
 /**
  * This is a predicate application to a list of arguments. The arguments may
@@ -43,5 +46,15 @@ public class PredicateApplication implements AssertionExpr {
 
     public List<AtomicExpression> getArguments() {
         return Collections.unmodifiableList(arguments);
+    }
+
+    @Override
+    public SexpParser.Expr unparse() {
+        return reverseConsAfter(
+                unparseList(arguments),
+
+                atom("@"),
+                atom(predicateName)
+        );
     }
 }

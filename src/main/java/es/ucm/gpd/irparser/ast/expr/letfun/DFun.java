@@ -16,6 +16,7 @@
 
 package es.ucm.gpd.irparser.ast.expr.letfun;
 
+import es.ucm.gpd.irparser.ast.ASTNode;
 import es.ucm.gpd.irparser.ast.BaseFunctionDefinition;
 import es.ucm.gpd.irparser.ast.VariableDeclaration;
 import es.ucm.gpd.irparser.ast.expr.Expression;
@@ -31,7 +32,7 @@ import static es.ucm.sexp.SexpUtils.listToCons;
 /**
  * @author Santiago Saavedra
  */
-public class DFun extends BaseFunctionDefinition {
+public class DFun extends BaseFunctionDefinition implements ASTNode {
     public DFun(String functionName, Map<MetadataType, FunctionMetadata> functionMetadata,
                 List<VariableDeclaration> formalParameters,
                 List<VariableDeclaration> returnType, Expression expr) {

@@ -18,10 +18,12 @@ package es.ucm.gpd.irparser.ast.expr;
 
 import es.ucm.gpd.irparser.ast.assertion.AssertionExpr;
 import es.ucm.gpd.irparser.ast.type.Type;
+import es.ucm.sexp.SexpParser;
 
 import java.util.Collections;
 import java.util.List;
 
+import static es.ucm.gpd.irparser.ast.ASTUtils.*;
 import static es.ucm.sexp.SexpUtils.listToCons;
 
 /**
@@ -49,5 +51,12 @@ public class AssertsExpression implements Expression {
         return String.format("(asserts (%s)\n  %s)",
                 listToCons(asserts),
                 expression);
+    }
+
+    @Override
+    public SexpParser.Expr unparse() {
+        return consList(atom("asserts"),
+                unparseList(asserts),
+                expression.unparse());
     }
 }

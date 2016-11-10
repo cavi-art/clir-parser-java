@@ -16,11 +16,12 @@
 
 package es.ucm.gpd.irparser.ast.metadata;
 
+import es.ucm.gpd.irparser.ast.ASTNode;
 import es.ucm.gpd.irparser.ast.assertion.AssertionExpr;
 import es.ucm.gpd.irparser.ast.assertion.AssertionType;
 import es.ucm.sexp.SexpParser;
 
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 import static es.ucm.gpd.irparser.Sexp2Ast.parseAssertion;
@@ -32,9 +33,9 @@ import static es.ucm.sexp.SexpUtils.*;
  *
  * @author Santiago Saavedra
  */
-public interface FunctionMetadata {
+public interface FunctionMetadata extends ASTNode {
     static Map<MetadataType, FunctionMetadata> fromAList(SexpParser.Expr metacons) {
-        final Map<MetadataType, FunctionMetadata> map = new HashMap<>();
+        final Map<MetadataType, FunctionMetadata> map = new LinkedHashMap<>();
 
         while (metacons != null) {
             final SexpParser.Expr elt = car(metacons);
@@ -43,7 +44,7 @@ public interface FunctionMetadata {
                 case "assertion":
                     SexpParser.Expr assertions = cdr(elt);
                     Map<AssertionType, AssertionExpr> assertionsMap = new
-                            HashMap<>();
+                            LinkedHashMap<>();
 
                     while (assertions != null) {
                         final SexpParser.Expr key = car(assertions);

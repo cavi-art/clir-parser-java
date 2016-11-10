@@ -16,8 +16,10 @@
 
 package es.ucm.gpd.irparser.ast.type;
 
+import es.ucm.gpd.irparser.ast.ASTNode;
+
 /**
  * @author Santiago Saavedra
  */
-abstract public class Type {
+public abstract class Type implements ASTNode {
 }

@@ -119,12 +119,13 @@ public class Sexp2Ast {
     ) {
         String functionName = car(cons).getAtom().toString();
 
+        List<VariableDeclaration> formalParameters =
+                parseVarDeclList(cadr(cons));
 
-        List<VariableDeclaration> formalParameters = parseVarDeclList(cadr
-                (cons));
-        List<VariableDeclaration> returnType = parseVarDeclList(cadr(cdr
-                (cons)));
+        List<VariableDeclaration> returnType =
+                parseVarDeclList(cadr(cdr(cons)));
 
+        @SuppressWarnings("unchecked")
         Map<MetadataType, FunctionMetadata> metadata = Collections.EMPTY_MAP;
 
         // Test for optional metadata
@@ -143,7 +144,7 @@ public class Sexp2Ast {
             SexpParser.Expr expr
     ) {
         if (expr.isAtom()) {
-            return new Var(expr.getAtom().toString(), null);
+            return new Var(expr.getAtom().toString());
         }
 
         if (car(expr).toString().equalsIgnoreCase("the")) {
@@ -163,10 +164,13 @@ public class Sexp2Ast {
             List<DFun> definitions = consToList(cadr(expr)).stream()
                     .map((e) -> {
                         FunctionDefinition d = parseFunctionDeclaration(e);
-                        return new DFun(d.getFunctionName(), d
-                                .getFunctionMetadata(), d
-                                .getFormalParameters(), d.getReturnType(),
-                                d.getExpr());
+                        return new DFun(
+                                d.getFunctionName(),
+                                d.getFunctionMetadata(),
+                                d.getFormalParameters(),
+                                d.getReturnType(),
+                                d.getExpr()
+                        );
                     }).collect(Collectors.toList());
 
             Expression letExpr = parseExpr(cadr(cdr(expr)));
@@ -183,7 +187,7 @@ public class Sexp2Ast {
             Atom discriminant = parseAtom(cadr(expr));
             List<CaseAlt<Expression>> alts = consToList(cddr(expr))
                     .stream()
-                    .map(e -> new CaseAlt<Expression>(
+                    .map(e -> new CaseAlt<>(
                             parseCasePattern(car(e)), parseExpr(cadr(e))
                     ))
                     .collect(Collectors.toList());
@@ -214,7 +218,9 @@ public class Sexp2Ast {
         }
 
         if (carEqualsIgnoreCase(expr, "the")) {
-            return new CaseConstant<>((Constant) parseAtom(expr));
+            @SuppressWarnings("unchecked")
+            CaseConstant constant = new CaseConstant<>((Constant) parseAtom(expr));
+            return constant;
         }
 
         if (expr.isAtom() &&

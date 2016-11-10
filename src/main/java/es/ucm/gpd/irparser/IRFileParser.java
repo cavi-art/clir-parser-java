@@ -68,8 +68,7 @@ public class IRFileParser implements Iterator<VerificationUnit> {
         }
 
         try {
-            data = new FileInputStream
-                    ("../cl-vc-gen/test/qsort.clir");
+            data = new FileInputStream("../cl-vc-gen/test/qsort.clir");
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }

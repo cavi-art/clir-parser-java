@@ -16,8 +16,10 @@
 
 package es.ucm.gpd.irparser.ast.tld;
 
+import es.ucm.gpd.irparser.ast.ASTNode;
+
 /**
  * @author Santiago Saavedra
  */
-public interface ToplevelDefinition {
+public interface ToplevelDefinition extends ASTNode {
 }

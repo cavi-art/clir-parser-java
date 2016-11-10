@@ -16,6 +16,10 @@
 
 package es.ucm.gpd.irparser.ast.type;
 
+import es.ucm.sexp.Atom;
+import es.ucm.sexp.Cons;
+import es.ucm.sexp.SexpParser;
+
 /**
  * @author Santiago Saavedra
  */
@@ -34,5 +38,11 @@ public class TypeVar extends Type {
     @Override
     public String toString() {
         return "'" + varname;
+    }
+
+    // TODO: Type variable signatures are not yet stable
+    @Override
+    public SexpParser.Expr unparse() {
+        return new Cons(new Atom("$"), new Atom(varname));
     }
 }

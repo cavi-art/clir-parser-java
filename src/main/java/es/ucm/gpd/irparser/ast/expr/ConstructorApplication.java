@@ -17,10 +17,13 @@
 package es.ucm.gpd.irparser.ast.expr;
 
 import es.ucm.gpd.irparser.ast.type.Type;
+import es.ucm.sexp.SexpParser;
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 import java.util.Collections;
 import java.util.List;
+
+import static es.ucm.gpd.irparser.ast.ASTUtils.*;
 
 /**
  * @author Santiago Saavedra
@@ -45,5 +48,13 @@ public class ConstructorApplication implements AtomicExpression {
     @Override
     public Type getType() {
         throw new NotImplementedException();
+    }
+
+    @Override
+    public SexpParser.Expr unparse() {
+        return consList(atom("@@"),
+                atom(constructorName),
+                unparseList(arguments)
+        );
     }
 }

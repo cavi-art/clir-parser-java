@@ -17,6 +17,11 @@
 package es.ucm.gpd.irparser.ast.expr;
 
 import es.ucm.gpd.irparser.ast.type.Type;
+import es.ucm.sexp.SexpParser;
+import es.ucm.sexp.StringAtom;
+
+import static es.ucm.gpd.irparser.ast.ASTUtils.atom;
+import static es.ucm.gpd.irparser.ast.ASTUtils.consList;
 
 /**
  * @author Santiago Saavedra
@@ -28,6 +33,31 @@ public class Constant<T> implements Atom {
     public Constant(Type type, T value) {
         this.type = type;
         this.value = value;
+    }
+
+    private static String _quotedString(Object value) {
+        final char[] ca = value.toString().toCharArray();
+
+        final StringBuilder sb = new StringBuilder();
+
+        sb.append('"');
+
+        for (char c : ca) {
+            switch (c) {
+                case '"':
+                    sb.append('\\'); // Prepend a backslash in escaped values
+                    break;
+                case '\\':
+                    sb.append("\\");
+                    break;
+            }
+            sb.append(c);
+
+        }
+
+        sb.append('"');
+
+        return sb.toString();
     }
 
     @Override
@@ -44,4 +74,22 @@ public class Constant<T> implements Atom {
     public String toString() {
         return String.format("(the %s %s)", type, value);
     }
+
+    @Override
+    public SexpParser.Expr unparse() {
+        es.ucm.sexp.Atom strValue;
+
+        if (value == value.toString()) {
+            strValue = new StringAtom(value.toString());
+        } else {
+            strValue = new es.ucm.sexp.Atom(value.toString());
+        }
+
+        return consList(
+                atom("the"),
+                type.unparse(),
+                strValue
+        );
+    }
+
 }
